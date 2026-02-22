@@ -16,32 +16,22 @@ export default function ProductDetails() {
   const [product, setProduct] = useState<ProductI | null>(null)
   const [relatedProducts, setRelatedProducts] = useState<ProductI[]>([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!productId) return;
 
     const fetchData = async () => {
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
-        if (!baseUrl) {
-          throw new Error("NEXT_PUBLIC_BASE_URL is not defined")
-        }
 
-        const res = await fetch(`${baseUrl}/products/${productId}`)
-        if (!res.ok) throw new Error("Failed to fetch product")
-
+        const res = await fetch(`https://ecommerce.routemisr.com/api/v1/products/${productId}`)
         const data = await res.json()
         setProduct(data.data)
 
-        const relatedRes = await fetch(`${baseUrl}/products?category[in]=${data.data.category._id}`)
-        if (!relatedRes.ok) throw new Error("Failed to fetch related products")
-
+        const relatedRes = await fetch(`https://ecommerce.routemisr.com/api/v1/products?category[in]=${data.data.category._id}`)
         const related = await relatedRes.json()
         setRelatedProducts(related.data)
-      } catch (err: any) {
-        console.error(err)
-        setError(err.message || "Something went wrong")
+      } catch (error) {
+        console.error(error)
       } finally {
         setLoading(false)
       }
@@ -59,7 +49,6 @@ export default function ProductDetails() {
     </div>
   )
 
-  if (error) return <div className="text-red-500">Error: {error}</div>
   if (!product) return <div>Product not found</div>
 
   return (
@@ -87,9 +76,9 @@ export default function ProductDetails() {
         </div>
         <div className="col-span-2 flex flex-col gap-4">
           <CardHeader>
-            <span className="text-gray-500">{product.brand?.name}</span>
+            <span className="text-gray-500">{product.brand.name}</span>
             <CardTitle>{product.title}</CardTitle>
-            <CardDescription>{product.category?.name}</CardDescription>
+            <CardDescription>{product.category.name}</CardDescription>
             <CardDescription>{product.description}</CardDescription>
           </CardHeader>
 
@@ -121,9 +110,9 @@ export default function ProductDetails() {
               <Link href={`/products/${prod._id}`}>
                 <Image src={prod.imageCover} width={1000} height={1000} alt={prod.title} className="w-full object-contain h-80" />
                 <CardHeader>
-                  <span className="text-gray-500">{prod.brand?.name}</span>
+                  <span className="text-gray-500">{prod.brand.name}</span>
                   <CardTitle>{prod.title}</CardTitle>
-                  <CardDescription>{prod.category?.name}</CardDescription>
+                  <CardDescription>{prod.category.name}</CardDescription>
                 </CardHeader>
                 <CardContent className="flex justify-between">
                   <div className="flex gap-1 items-center">
