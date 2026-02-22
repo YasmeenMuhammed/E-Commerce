@@ -110,7 +110,7 @@ export default function HeroSection() {
             <div className="flex flex-wrap items-center gap-6 sm:gap-8 lg:gap-12">
               <div className="flex-shrink-0">
                 <div className="flex items-baseline gap-1">
-                  <h3 className="text-3xl sm:text-4xl font-bold text-black mb-10">
+                  <h3 className="text-3xl sm:text-4xl font-bold text-black ">
                     {brandsCount}+
                   </h3>
                 </div>
@@ -153,7 +153,7 @@ export default function HeroSection() {
       </div>
 
       {/* Brand Marquee */}
-      <div className="absolute bottom-0 left-0 right-0 bg-black py-8 lg:py-10 overflow-hidden">
+      <div className="absolute bottom-0 left-0 right-0 bg-black py-8 lg:py-10 overflow-hidden mt-20">
         <div className="relative">
           {/* Infinite scroll animation */}
           <div className="flex animate-marquee">
